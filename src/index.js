@@ -4,11 +4,15 @@ const {PORT} = require('./config/serverConfig')
 const apiRoutes = require('./routes/index')
 const app = express();
 
+const UserRepository = require('./repository/user-repository')
 // const {User} = require('./models/index')
 // const bcrypt = require('bcrypt')
 
+
 const bodyParser =require('body-parser');
 const prepareAndStartServer = ()=>{
+
+    const userRepository = new UserRepository();
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
@@ -21,6 +25,8 @@ const prepareAndStartServer = ()=>{
         // const user = await User.findByPk(4);
         // const response = bcrypt.compareSync(myPlaintextPassword, user.password);
         // console.log(response);
+        const res = await userRepository.getUserById(2);
+        console.log(res);
     })
 }
 
