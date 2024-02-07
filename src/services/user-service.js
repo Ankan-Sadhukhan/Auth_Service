@@ -19,7 +19,7 @@ class UserService{
         }
     }
 
-    async createToken(user){
+    createToken(user){
         try {
             const token = jwt.sign(user,JWT_KEY,{
                 expiresIn:'1h'
@@ -31,7 +31,7 @@ class UserService{
         }
     }
 
-    async verifyToken(token){
+    verifyToken(token){
         try {
             const response = jwt.verify(token,JWT_KEY);
             return response;
@@ -72,6 +72,24 @@ class UserService{
             throw error;
         }
     }
+
+    async isAuthenticate(token){
+        try {
+            const response = this.verifyToken(token);
+            if(!response){
+                throw {error:'Invalid Token'}
+            }
+            const user = await this.userRepository.getUserById(response.id);
+
+            if(!user){
+                throw {error: 'No user with the corresponding token exists'};
+            }
+            return user.id;
+        } catch (error) {
+            console.log("Something went wrong in the auth process");
+            throw error;
+        }
+    } 
 }
 
 module.exports = UserService;
