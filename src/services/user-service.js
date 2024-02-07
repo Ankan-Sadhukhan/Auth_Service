@@ -41,12 +41,34 @@ class UserService{
         }
     }
 
-    async checkPassword(userInputPlainPassword, encryptedPassword){
+    checkPassword(userInputPlainPassword, encryptedPassword){
         try {
             const result = bcrypt.compareSync(userInputPlainPassword,encryptedPassword);
             return result;
         } catch (error) {
             console.log("Something went wrong in password comparison")
+            throw error;
+        }
+    }
+
+    async signIn(email, plainPassword){
+        try {
+            //fetch the user by email
+            const user = await this.userRepository.getUserByEmail(email);
+
+            //match the stored password with incomming password
+            const passwordsMatch = this.checkPassword(plainPassword, user.password);
+
+            if(!passwordsMatch){
+                console.log("Password doesn't match")
+                throw {error: "Incorrect Password"}
+            }
+
+            // step 3-> if passwords match then create a token and send it to the user
+            const newJWT = this.createToken({email:user.email, id:user.id})
+            return newJWT;
+        } catch (error) {
+            console.log("something went wrong in sign In")
             throw error;
         }
     }
