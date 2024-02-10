@@ -4,6 +4,7 @@ const {PORT} = require('./config/serverConfig')
 const apiRoutes = require('./routes/index')
 const app = express();
 
+const db =require('./models/index')
 //const UserRepository = require('./repository/user-repository')
 // const UserService = require('./services/user-service')
 // const {User} = require('./models/index')
