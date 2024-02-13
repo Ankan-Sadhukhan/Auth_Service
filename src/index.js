@@ -4,7 +4,7 @@ const {PORT} = require('./config/serverConfig')
 const apiRoutes = require('./routes/index')
 const app = express();
 
-const db =require('./models/index')
+const {User,Role} =require('./models/index')
 //const UserRepository = require('./repository/user-repository')
 // const UserService = require('./services/user-service')
 // const {User} = require('./models/index')
@@ -25,6 +25,11 @@ const prepareAndStartServer = ()=>{
     app.listen(PORT ,async()=>{
         console.log(`Server started on PORT: ${PORT}`)
 
+        const u1 = await User.findByPk(1);
+        const r1 = await Role.findByPk(2);
+
+        const res = await u1.hasRole(r1);
+        console.log(res);
 
         // const newToken = userService.createToken({
         //     email:'ankan@gmail.com',id:1
