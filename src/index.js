@@ -25,11 +25,14 @@ const prepareAndStartServer = ()=>{
     app.listen(PORT ,async()=>{
         console.log(`Server started on PORT: ${PORT}`)
 
-        const u1 = await User.findByPk(1);
-        const r1 = await Role.findByPk(2);
+        // if(process.env.DB_SYNC) {
+        //     db.sequelize.sync({alter: true});
+        // }
+        // const u1 = await User.findByPk(1);
+        // const r1 = await Role.findByPk(2);
 
-        const res = await u1.hasRole(r1);
-        console.log(res);
+        // const res = await u1.hasRole(r1);
+        // console.log(res);
 
         // const newToken = userService.createToken({
         //     email:'ankan@gmail.com',id:1
